@@ -81,13 +81,13 @@
 				<section>
 
 					<img src="./img/adsk.ico" width="100" height="100"
-						 style="position: absolute; left: 30%; top: 53px"/>
+						 style="position: absolute; left: 18%; top: 53px"/>
 
 					<img src="./img/forge.png" width="100" height="100"
-						 style="position: absolute; right: 29%; top: 53px"/>
+						 style="position: absolute; right: 18%; top: 53px"/>
 
-					<h2 style="top: 40px;">VISUAL REPORTS</h2>
-					<h2 style="top: 115px;font-size: 48px;">WITH CONNECTED DATA</h2>
+					<h2 style="top: 40px;">FORGE VIEWER</h2>
+					<h2 style="top: 115px;font-size: 48px;">Another way to view 3D models in the web browser</h2>
 
 					<iframe src="./slides/connected-data.html" style="width:800px;height:500px;">
 					</iframe>
@@ -95,38 +95,179 @@
 					<p style="bottom: 0px; position: relative;">
 						<small>
 							<a href="http://http://twitter.com/F3lipek">
-								Philippe Leefsma
+								Zhong Wu
 							</a>
-							/
-							<a href="http://twitter.com/F3lipek">
-								@F3lipek
-							</a>
+							/ Forge Developer Advocate
 							<br>
-							Forge Partner Development
+							@<a href="http://forge.autodesk.com">
+							Forge Partner Development, Autodesk
+							</a>
 						</small>
 					</p>
 				</section>
 
 				<section>
-					<h2>AGENDA</h2>
-					<ol style="width: 500px;">
+					<section>
+						<h2> The web today </h2>
+					</section>
+					<section>
+						<iframe src="http://www.giant.com.cn/product_view/19716.html" class="iframe-fullscreen">
+						</iframe>
+					</section>
+				</section>
+
+
+				<section>
+					<h2 style="top: 40px;">Why not use 3D in web?</h2>
+					<ul style="width: 600px;">
 						<li class="fragment"
 							style="margin-bottom: 60px";>
-							<b>Accessing Design Data</b>
+							<b>HTML 5 includes WebGL</b>
 						</li>
 						<li class="fragment"
 							style="margin-bottom: 60px";>
-							<b>UI Customization & Overrides</b>
+							<b>Lots of 3D content already available</b>
 						</li>
 						<li class="fragment"
 							style="margin-bottom: 60px";>
-							<b>Connecting External Data Sources</b>
+							<b>Different ways to make it “easier”</b>
 						</li>
-					</ol>
+					</ul>
+					
+				</section>
+				<section>
+					<h2> The time has come ... </h2>
+					<section>
+						<img src="./img/3dicons.png" top="180px" width="800px" height="500px;">
+					</section>
+				</section>
+
+
+				<section>
+					<section>
+						<h2>3d web creative examples</h2>
+					</section>
+					<section>
+						<iframe src="http://customiser.pennyskateboards.com/us/" class="iframe-fullscreen">
+						</iframe>
+					</section>
+					<section>
+						<iframe src="https://human.biodigital.com/index.html" class="iframe-fullscreen">
+						</iframe>
+					</section>
+					<section>
+						<iframe src="http://www.ford.com/cars/mustang/customizer" class="iframe-fullscreen">
+						</iframe>
+					</section>
 				</section>
 
 				<section>
-					<h2 style="top: 250px;">Part I - ACCESSING DESIGN DATA</h2>
+					<section>
+						<h2> Choose your weapon </h2>
+						<img src="./img/weapon.png" top="180px" width="1000px" height="500px;">
+					</section>
+					<section>
+						<h2> WebGL </h2>
+						<iframe src="https://www.khronos.org/webgl/" top="180px" width="1000px" height="500px;"> 
+						</iframe>
+					</section>
+					<section>
+						<h2> THREE.js </h2>
+					</section>
+					<section>
+						<iframe src="http://threejs.org/examples/#webgl_geometry_cube" class="iframe-fullscreen">
+						</iframe>
+					</section>
+					<section>
+						<h2> Forge Viewer </h2>
+					</section>
+
+					<section>
+						<iframe src="./slides/structure-props.html" class="iframe-fullscreen">
+						</iframe>
+					</section>
+					<section>
+						<img src="./img/big-picture.png">
+					</section>
+					<section>
+						<iframe src="https://developer.autodesk.com/en/docs/viewer/v2" class="iframe-fullscreen">
+						</iframe>
+					</section>
+
+					<section>
+						<h2>
+							Basic sample of Forge Viewer
+						</h2>
+					</section>
+					<section>
+						<iframe src="https://github.com/Developer-Autodesk/view.and.data-boilerplate" class="iframe-fullscreen">
+						</iframe>
+					</section>
+					<section>
+						<h2>
+							More sample on Github
+						</h2>
+					</section>
+					<section>
+						<iframe src="https://github.com/Developer-Autodesk/LmvNavTest" class="iframe-fullscreen">
+						</iframe>
+					</section>
+					<section>
+						<iframe src="http://calm-inlet-4387.herokuapp.com/" class="iframe-fullscreen">
+						</iframe>
+					</section>
+					<section>
+						<h2>
+							Application based on Forge Viewer
+						</h2>
+					</section>
+					<section>
+						<iframe src="https://www.simulationhub.com/publicviewer/share?link=4ee78e96c1b245a9b42947e49455150e" class="iframe-fullscreen">
+						</iframe>
+					</section>
+
+					<section>
+						<iframe src="http://dotdotty.com/" class="iframe-fullscreen">
+						</iframe>
+					</section>
+					<section>
+						<h2>Accessing the API</h2>
+						<pre> 
+							<code class="hljs" data-trim contenteditable>
+html:
+<div id='viewer'> </div>
+
+js:
+function load (urn) {
+
+  initializationStuff(urn, ..., function(svf) {
+
+    var viewerContainer = document.getElementById('viewer')
+
+    var viewer = Autodesk.Viewing.Viewer3D(viewerContainer)
+
+    viewer.loadModel(getViewablePath(svf))
+
+    // call API's
+
+    viewer.setBackgroundColor( ... )
+
+    viewer.loadExtension('VisualReport')
+
+    // ...
+  })
+}
+							
+							</code>
+						
+						</pre>
+					</section>
+				</section>
+
+
+
+				<section>
+					<h2 style="top: 250px;">Part I - ACCESSING DESIGN DATA TEst</h2>
 				</section>
 
 				<section>
