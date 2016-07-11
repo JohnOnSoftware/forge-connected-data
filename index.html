@@ -7,7 +7,7 @@
 
 		<title>Forge - Connected Data</title>
 
-		<meta name="description" content="Autodesk Forge"/>
+		<meta name="description" content="Autodesk Forge Viewer"/>
 
 		<meta name="apple-mobile-web-app-capable" content="yes"/>
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -111,32 +111,23 @@
 						<h2> The web today </h2>
 					</section>
 					<section>
-						<iframe src="http://www.giant.com.cn/product_view/19716.html" class="iframe-fullscreen">
+						<iframe src="http://www.amazon.com/Schwinn-Protocol-Dual-Suspension-Mountain-26-Inch/dp/B001IANSJ6/" class="iframe-fullscreen">
+						</iframe>
+					</section>
+					<section>
+						<h2>How about this?</h2>
+					</section>
+					<section>
+						<iframe src="http://duchangyu.github.io/meetup-3d-on-web/3d-for-amazon/index.html" class="iframe-fullscreen">
 						</iframe>
 					</section>
 				</section>
-
-
-				<section>
-					<h2 style="top: 40px;">Why not use 3D in web?</h2>
-					<ul style="width: 600px;">
-						<li class="fragment"
-							style="margin-bottom: 60px";>
-							<b>HTML 5 includes WebGL</b>
-						</li>
-						<li class="fragment"
-							style="margin-bottom: 60px";>
-							<b>Lots of 3D content already available</b>
-						</li>
-						<li class="fragment"
-							style="margin-bottom: 60px";>
-							<b>Different ways to make it “easier”</b>
-						</li>
-					</ul>
-					
-				</section>
 				<section>
 					<h2> The time has come ... </h2>
+					<section>
+						<img src="./img/webgl.png" top="180px" width="800px" height="500px">
+					</section>
+					
 					<section>
 						<img src="./img/3dicons.png" top="180px" width="800px" height="500px;">
 					</section>
@@ -149,10 +140,6 @@
 					</section>
 					<section>
 						<iframe src="http://customiser.pennyskateboards.com/us/" class="iframe-fullscreen">
-						</iframe>
-					</section>
-					<section>
-						<iframe src="https://human.biodigital.com/index.html" class="iframe-fullscreen">
 						</iframe>
 					</section>
 					<section>
@@ -181,13 +168,19 @@
 					<section>
 						<h2> Forge Viewer </h2>
 					</section>
-
 					<section>
 						<iframe src="./slides/structure-props.html" class="iframe-fullscreen">
 						</iframe>
 					</section>
+				</section>
+				<section>
 					<section>
-						<img src="./img/big-picture.png">
+						<h2> About Forge Viewer </h2>
+						<ul class="fragment">
+							<li class="fragment">Supports over 70 formats(dwg, rvt, obj, stl, etc.)</li>
+							<li class="fragment">Viewables stored in the cloud</li>
+							<li class="fragment">No WebGL knowledge needed</li>
+						</ul>					
 					</section>
 					<section>
 						<iframe src="https://developer.autodesk.com/en/docs/viewer/v2" class="iframe-fullscreen">
@@ -230,638 +223,28 @@
 						<iframe src="http://dotdotty.com/" class="iframe-fullscreen">
 						</iframe>
 					</section>
-					<section>
-						<h2>Accessing the API</h2>
-						<pre> 
-							<code class="hljs" data-trim contenteditable>
-html:
-<div id='viewer'> </div>
-
-js:
-function load (urn) {
-
-  initializationStuff(urn, ..., function(svf) {
-
-    var viewerContainer = document.getElementById('viewer')
-
-    var viewer = Autodesk.Viewing.Viewer3D(viewerContainer)
-
-    viewer.loadModel(getViewablePath(svf))
-
-    // call API's
-
-    viewer.setBackgroundColor( ... )
-
-    viewer.loadExtension('VisualReport')
-
-    // ...
-  })
-}
-							
-							</code>
-						
-						</pre>
-					</section>
+				</section>
+				<section>
+					<h2>Autodesk Forge Viewer – Getting Started
+					</h2>
+                    <ul class="fragment">
+                        <li class="fragment">Register an App</li>
+                        <li class="fragment">Build your HTML</li>
+                        <li class="fragment">Token Handling</li>
+                    </ul>					
 				</section>
 
 
 
 				<section>
-					<h2 style="top: 250px;">Part I - ACCESSING DESIGN DATA TEst</h2>
-				</section>
-
-				<section>
-					<section>
-						<iframe src="./slides/structure-props.html" class="iframe-fullscreen">
-						</iframe>
-					</section>
-					<section>
-						<img src="./img/big-picture.png">
-					</section>
-					<section>
-						<h2>Accessing the API</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-
-html:
-<div id='viewer'> </div>
-
-js:
-function load (urn) {
-
-  initializationStuff(urn, ..., function(svf) {
-
-    var viewerContainer = document.getElementById('viewer')
-
-    var viewer = Autodesk.Viewing.Viewer3D(viewerContainer)
-
-    viewer.loadModel(getViewablePath(svf))
-
-    // call API's
-
-    viewer.setBackgroundColor( ... )
-
-    viewer.loadExtension('VisualReport')
-
-    // ...
-  })
-}
-						</code></pre>
-					</section>
-				</section>
-
-				<section>
-					<section>
-						<h2>VIEWER COMPONENT MODEL</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-
-{
-  name: 'chassis'          //display name of the component
-  dbId: 53                 //unique id for the component in the model
-  fragIds: [38, 39]        //reference the three.js meshes
-  parent: 37               //dbId of the parent node
-  children: [65, 113, 146] //array of children nodes ids
-}
-
-						</code></pre>
-					</section>
-
-					<section>
-						<h2>MODEL STRUCTURE (1)</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-
-function buildModelTree (model) {
-
-  var instanceTree = model.getData().instanceTree
-
-  var rootId = instanceTree.getRootId()
-
-  var rootNode = {
-    dbId: rootId,
-    name: instanceTree.getNodeName(rootId)
-  }
-
-  buildModelTreeRec(rootNode)
-
-  return rootNode
-}
-
-						</code></pre>
-					</section>
-
-					<section>
-						<h2>MODEL STRUCTURE (2)</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-
-function buildModelTreeRec (node) {
-
-    instanceTree.enumNodeChildren (node.dbId, function (childId) {
-
-        node.children = node.children || []
-
-        var childNode = {
-            dbId: childId,
-            name: instanceTree.getNodeName(childId)
-        }
-
-        node.children.push(childNode)
-
-        buildModelTreeRec(childNode)
-    })
-}
-
-						</code></pre>
-					</section>
-
-					<section>
-						<h2>NODE FRAGMENTS</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-
-var instanceTree = model.getData().instanceTree
-
-var fragIds = []
-
-instanceTree.enumNodeFragments(dbId, function (fragId) {
-
-    fragIds.push(fragId)
-})
-
-						</code></pre>
-					</section>
-
-					<section>
-						<h2>MODEL STRUCTURE (3)</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-
-function buildModelTreeRec (node) {
-
-  node.fragIds = []
-
-  instanceTree.enumNodeFragments(dbId, function (fragId) {
-
-    node.fragIds.push(fragId)
-  })
-
-  instanceTree.enumNodeChildren (node.dbId, function (childId) {
-
-    node.children = node.children || []
-
-    var childNode = {
-      dbId: childId,
-      name: instanceTree.getNodeName(childId)
-    }
-
-    node.children.push(childNode)
-
-    buildModelTreeRec(childNode)
-  })
-}
-
-						</code></pre>
-					</section>
-
-					<section>
-						<h2>COMPONENT PROPERTIES</h2>
-					<pre><code class="hljs" data-trim contenteditable>
-
-model.getProperties(dbId, function(result) {
-
-    if (result.properties){
-
-        result.properties.forEach( function (prop) {
-
-            console.log(prop)
-        })
-    }
-}
-					</code></pre>
-					</section>
-				</section>
-
-				<section>
-					<a href="http://calm-inlet-4387.herokuapp.com/" target="_blank">
-						<img src="./img/LMV%20Nav.png">
-					</a>
-				</section>
-
-				<section>
-					<h2 style="top:250px;">Part II - UI CUSTOMIZATION</h2>
-					<h2 style="top:320px;">& OVERRIDES</h2>
-				</section>
-
-				<section>
-					<h2>2D OVERLAYS</h2>
-					<img src="./img/div-logo.jpg" style="height: 400px;">
-				</section>
-
-				<section>
-					<section>
-						<h2>Docking Panel</h2>
-							<pre><code class="hljs" data-trim contenteditable>
-class CustomPanel extends Autodesk.Viewing.UI.DockingPanel {
-
- constructor(container, title, options = {}) {
-
-  super(container, panelId, title, options)
-
-  this.container.appendChild(...)
- }
-
-}
-							</code></pre>
-					</section>
-					<section>
-						<h2>Property Panel</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-class CustomPropertyPanel extends Autodesk.Viewing.UI.ViewerPropertyPanel {
-
-  constructor(viewer) {
-
-    super(viewer)
-  }
-
-  setProperties (properties) {
-
-    properties.push({ ... custom property ... })
-
-	super.setProperties(properties)
-  }
-}
-						</code></pre>
-					</section>
-				</section>
-
-				<section>
-					<iframe src="./slides/visual%20report.html" class="iframe-fullscreen">
-					</iframe>
-				</section>
-
-				<section>
-					<h2 style="top:80px;">FRAGMENT OVERRIDES</h2>
-					<section>
-						<h2 style="top:170px;">Material</h2>
-							<pre><code class="hljs" data-trim contenteditable>
-//current model
-var model = viewer.model
-
-//create custom material
-var material = new THREE.MeshPhongMaterial({
-    color: '#F43BC1'
-	//... other properties
-})
-
-//set material on specific fragId
-model.getFragmentList().setMaterial(
-    fragId, material)
-
-//force viewer to update scene
-viewer.impl.invalidate(true)
-							</code></pre>
-					</section>
-
-					<section>
-						<h2 style="top:170px;">Overlay</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-//access render proxy
-var renderProxy = viewer.impl.getRenderProxy(
-    model, fragId)
-
-//clone geometry
-var meshProxy = new THREE.Mesh(
-    renderProxy.geometry)
-
-meshProxy.matrix.copy(
-    renderProxy.matrixWorld)
-
-//create 3d overlay
-viewer.impl.addOverlay(
-    materialName, meshProxy)
-
-// force update
-viewer.impl.invalidate(true)
-							</code></pre>
-					</section>
-					<section>
-						<h2 style="top:170px;">Transform</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-// access fragment proxy i.e. THREE.Mesh
-var fragProxy = viewer.impl.getFragmentProxy(
-    model, fragId)
-
-fragProxy.getAnimTransform()
-
-fragProxy.position = new THREE.Vector3(x, y, z)
-
-//Not a standard three.js quaternion
-fragProxy.quaternion._x = qx;
-fragProxy.quaternion._y = qy;
-fragProxy.quaternion._z = qz;
-fragProxy.quaternion._w = qw;
-
-fragProxy.updateAnimTransform()
-
-viewer.impl.invalidate(true)
-							</code></pre>
-					</section>
-
-				</section>
-
-				<section>
-					<h2>PLAYING WITH SVG</h2>
-
-					<section>
-						<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-							Scalable Vector Graphics (SVG) is an XML-based markup language for describing
-							two-dimensional vector graphics. SVG is essentially to graphics what HTML is to text.
-						</blockquote>
-						(source: Mozilla Developer Network)
-					</section>
-
-					<section>
-						<a href="http://snapsvg.io" target="_blank">
-							<img src="./img/snap.png" style="height: 400px;">
-						</a>
-					</section>
-
-					<section>
-						<iframe src="./slides/snap.html" style="width:500px;height:400px;">
-						</iframe>
-					</section>
-				</section>
-
-				<section>
-					<iframe src="./slides/markup.html" class="iframe-fullscreen">
-					</iframe>
-				</section>
-
-				<section>
-					<h2>Coordinates Conversion</h2>
-					<section>
-						<h2 style="top:170px;">2D > 3D</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-function screenToWorld (screenPoint) {
-
-    var viewport = viewer.navigation.getScreenViewport()
-
-    var n = {
-        x: (screenPoint.x - viewport.left) / viewport.width,
-        y: (screenPoint.y - viewport.top) / viewport.height
-    }
-
-    var worldPoint = viewer.utilities.getHitPoint(n.x, n.y)
-
-    return worldPoint
-}
-						</code></pre>
-					</section>
-					<section>
-						<h2 style="top:170px;">3D > 2D</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-function worldToScreen(worldPoint) {
-
-  var p = new THREE.Vector4()
-
-  p.x = worldPoint.x
-  p.y = worldPoint.y
-  p.z = worldPoint.z
-  p.w = 1
-
-  var camera = viewer.navigation.getCamera()
-
-  p.applyMatrix4(camera.matrixWorldInverse)
-  p.applyMatrix4(camera.projectionMatrix)
-
-  var screenPoint = viewer.impl.viewportToClient(p.x, p.y)
-
-  //snap pixel centre
-  screenPoint.x = Math.floor(screenPoint.x) + 0.5
-  screenPoint.y = Math.floor(screenPoint.y) + 0.5
-
-  return screenPoint
-}
-						</code></pre>
-					</section>
-				</section>
-
-				<section>
-					<h2 style="top: 40px;">3D OVERLAYS</h2>
-					<img src="./img/simuhub.png" style="height: 600px;">
-				</section>
-
-				<section>
-					<section>
-						<iframe src="https://www.simulationhub.com/knowledge-base/simulation-gallery"
-								class="iframe-fullscreen">
-						</iframe>
-					</section>
-
-					<section>
-						<iframe src="./slides/particle.html" class="iframe-fullscreen">
-						</iframe>
-					</section>
-
-					<section>
-						<h2>Custom Meshes</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-
-var geometry = new THREE.SphereGeometry(size, 4, 4)
-
-var mesh = new THREE.Mesh(
-  geometry,
-  material)
-
-mesh.position.set(x, y, z)
-
-viewer.impl.scene.add(mesh)
-
-						</code></pre>
-					</section>
-				</section>
-
-				<section>
-
-					<section>
-						<iframe src="https://pier9.autodesk.io" class="iframe-fullscreen">
-						</iframe>
-					</section>
-
-					<section>
-						<iframe src="./slides/csstv.html" class="iframe-fullscreen">
-						</iframe>
-					</section>
-
-					<section>
-						<h2>CSS3DRenderer / CSS3DObject</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-
-var cssRenderer = new THREE.CSS3DRenderer()
-
-viewer.container.appendChild(
-  cssRenderer.domElement)
-
-var glScene = new THREE.Scene()
-
-var iFrame = document.createElement('iframe')
-
-var cssObj = new THREE.CSS3DObject(iFrame)
-
-cssObj.position.set(x, y, z)
-
-cssObj.scale.set(sx, sy, sz)
-
-glScene.add(cssObj)
-
-						</code></pre>
-					</section>
-				</section>
-
-				<section>
-					<h2 style="top: 250px;">Part III - CONNECTING EXTERNAL DATA SOURCES</h2>
-				</section>
-
-				<section>
-					<a href="http://mongo.autodesk.io" target="_blank">
-						<img src="./img/mongo.png"/>
-					</a>
-				</section>
-
-				<section>
-					<section>
-						<h2>REST / JSON</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-
-var router = express.Router()
-
-router.get('/items/:id', function (req, res) {
-
-  var item = getItemFromDatabase(id)
-
-  res.json(item)
-})
-
-var app = express()
-
-app.use('/api', router)
-
-app.listen(process.env.PORT)
-
-						</code></pre>
-					</section>
-					<section>
-						<h2>fetch vs XMLHttpRequest</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-
-function getItem(id, onSuccess, onError) {
-
-  fetch('/api/items/' + id).then(function (response) {
-
-    response.json(function (item) {
-
- 	  onSuccess(item)
-    })
-
-  }, function (error) {
-
-    onError(error)
-  })
-}
-						</code></pre>
-					</section>
-					<section>
-						<h2>Promises + async / await</h2>
-						<pre><code class="hljs" data-trim contenteditable>
-
-function getItem (id) {
-
-  return new Promise( async function (resolve, reject) {
-
-    try {
-
-      var response = await fetch('/api/items/' + id)
-
-      var item = await response.json()
-
-      return resolve(item)
-    }
-    catch(ex) {
-
-      return reject(ex)
-    }
-  })
-}
-
-function taskOnItems (itemIds) {
-
-  itemIds.forEach(async function (id) {
-
-    var item = await getItem(id)
-
-    console.log('Item: ' + item.name)
-  })
-}
-						</code></pre>
-					</section>
-				</section>
-
-				<section>
-					<a href="http://prelude.dotdotty.com" target="_blank">
-						<img src="./img/prelude.png">
-					</a>
-				</section>
-
-				<section>
-					<h2>RESOURCES</h2>
-					<ul>
-						<li style="margin-bottom: 20px";>
-							<a href="https://github.com/leefsmp/forge-connected-data" target="_blank">
-								https://github.com/leefsmp/forge-connected-data
-							</a>
-						</li>
-						<li style="margin-bottom: 20px";>
-							<a href="https://github.com/Developer-Autodesk" target="_blank">
-								https://github.com/Developer-Autodesk
-							</a>
-						</li>
-						<li style="margin-bottom: 20px";>
-							<a href="https://github.com/Developer-Autodesk/library-javascript-viewer-extensions" target="_blank">
-								library-javascript-viewer-extensions
-							</a>
-						</li>
-						<li style="margin-bottom: 20px";>
-							<a href="https://github.com/Developer-Autodesk/view.and.data-nodejs-mongo.sample" target="_blank">
-								view.and.data-nodejs-mongo.sample
-							</a>
-						</li>
-						<li style="margin-bottom: 20px";>
-							<a href="https://d3js.org" target="_blank">
-								https://d3js.org
-							</a>
-						</li>
-						<li style="margin-bottom: 20px";>
-							<a href="https://github.com/Developer-Autodesk/LmvNavTest" target="_blank">
-								LmvNavTest
-							</a>
-						</li>
-						<li>
-							. . .
-						</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>VISUAL REPORTS</h2>
-					<h2 style="top: 180px;font-size: 48px;">WITH CONNECTED DATA</h2>
+					<h2>Forge Viewer</h2>
+					<h2 style="top: 180px;font-size: 48px;">Another way to view 3D models in the web browser</h2>
 
 					<h2 style="top: 320px;font-size: 100px;">Q & A</h2>
 
 					<p style="bottom: -200px; position: relative;">
 						<small>
-							<a href="http://http://twitter.com/F3lipek">
-								Philippe Leefsma
-							</a>
-							/
-							<a href="http://twitter.com/F3lipek">
-								@F3lipek
-							</a>
+								Zhong Wu / Forge Developer Advocate 
 							<br>
 							Forge Partner Development
 						</small>
